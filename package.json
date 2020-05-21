@@ -1,0 +1,19 @@
+{
+  "name": "style9-components.macro",
+  "version": "0.1.0",
+  "author": "Johan Holmerin",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:johanholmerin/style9-components.macro.git"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "style9": "git+https://github.com/johanholmerin/style9#semver:^0.3.0"
+  },
+  "dependencies": {
+    "@babel/types": "^7.9.6",
+    "babel-plugin-macros": "^2.8.0",
+    "babel-template": "^6.26.0"
+  }
+}
