@@ -12,7 +12,7 @@ import styled from 'style9-components.macro';
 const Container = styled.div({
   fontSize: `${sizes.medium}px`,
   color: props => props.color,
-  border: '1px solid red'
+  backgroundColor: 'red'
 });
 
 
@@ -23,7 +23,7 @@ const Container = props => {
   const styles = style9.create({
     styles: {
       fontSize: `${sizes.medium}px`,
-      border: '1px solid red'
+      backgroundColor: 'red'
     }
   });
 
