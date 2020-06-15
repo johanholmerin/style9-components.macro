@@ -26,15 +26,20 @@ const Container = props => {
       backgroundColor: 'red'
     }
   });
+  const Type = props.as || 'div';
 
   return (
-    <div
+    <Type
       style={{ color: props.color }}
       className={styles('styles')}
-    >{props.children}</div>
+    >{props.children}</Type>
   );
 };
 ```
+
+## Features
+
+* `as` attribute to override element type
 
 ## Install
 

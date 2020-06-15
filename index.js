@@ -7,7 +7,7 @@ props => {
   const styles = STYLE9.create({
     styles: STYLES
   });
-  const Type = TYPE;
+  const Type = props.as || TYPE;
 
   return <Type
     style={DYNAMIC_STYLES}
