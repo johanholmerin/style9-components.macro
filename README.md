@@ -30,8 +30,8 @@ const Container = props => {
 
   return (
     <Type
-      style={{ color: props.color }}
-      className={styles('styles')}
+      style={{ color: props.color, ...props.style }}
+      className={style9(styles.styles, ...props.xstyle || [])}
     >{props.children}</Type>
   );
 };
@@ -40,6 +40,7 @@ const Container = props => {
 ## Features
 
 * `as` attribute to override element type
+* extending components using `styled(Container)({ /* ...styles */ })`
 
 ## Install
 

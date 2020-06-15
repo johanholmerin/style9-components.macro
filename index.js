@@ -2,6 +2,22 @@ const { createMacro } = require('babel-plugin-macros');
 const template = require('babel-template');
 const t = require('@babel/types');
 
+const buildExtendComponent = template(`
+props => {
+  const styles = STYLE9.create({
+    styles: STYLES
+  });
+  const Type = TYPE;
+
+  return <Type
+    {...props}
+    style={DYNAMIC_STYLES}
+    xstyle={[styles.styles, ...props.xstyle || []]}
+  >{props.children}</Type>;
+}`, {
+  plugins: ['jsx']
+});
+
 const buildComponent = template(`
 props => {
   const styles = STYLE9.create({
@@ -11,7 +27,7 @@ props => {
 
   return <Type
     style={DYNAMIC_STYLES}
-    className={styles('styles')}
+    className={STYLE9(styles.styles, ...props.xstyle || [])}
   >{props.children}</Type>;
 }`, {
   plugins: ['jsx']
@@ -41,12 +57,15 @@ function groupStyles(style) {
 
 function getDynamicStyles(props) {
   return t.objectExpression(
-    props.map(({ key, value }) =>
-      t.objectProperty(
-        key,
-        t.callExpression(value, [t.identifier('props')])
-      )
-    )
+    [
+      ...props.map(({ key, value }) =>
+        t.objectProperty(
+          key,
+          t.callExpression(value, [t.identifier('props')])
+        )
+      ),
+      t.spreadElement(t.memberExpression(t.identifier('props'), t.identifier('style')))
+    ]
   );
 }
 
@@ -60,6 +79,16 @@ function transformRef(ref, STYLE9) {
   return buildComponent({ STYLES, DYNAMIC_STYLES, TYPE, STYLE9 });
 }
 
+function transformExtend(ref, STYLE9) {
+  const { stat, dynamic } = groupStyles(ref.node.arguments[0]);
+
+  const STYLES = t.objectExpression(stat);
+  const TYPE = ref.node.callee.arguments[0];
+  const DYNAMIC_STYLES = getDynamicStyles(dynamic);
+
+  return buildExtendComponent({ STYLES, DYNAMIC_STYLES, TYPE, STYLE9 });
+}
+
 function style9Components({ references, state, babel }) {
   if (!references.default) return;
 
@@ -70,11 +99,15 @@ function style9Components({ references, state, babel }) {
   program.scope.registerBinding('module', program.get('body.0'));
 
   for (const ref of references.default) {
-    ref.parentPath.assertMemberExpression();
-    const callExpression = ref.parentPath.parentPath;
-    callExpression.assertCallExpression();
-
-    callExpression.replaceWith(transformRef(callExpression, STYLE9));
+    if (ref.parentPath.isMemberExpression()) {
+      const callExpression = ref.parentPath.parentPath;
+      callExpression.replaceWith(transformRef(callExpression, STYLE9));
+    } else if (ref.parentPath.isCallExpression()) {
+      const callExpression = ref.parentPath.parentPath;
+      callExpression.replaceWith(transformExtend(callExpression, STYLE9));
+    } else {
+      ref.parentPath.buildCodeFrameError('Invalid use');
+    }
   }
 }
 

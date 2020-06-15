@@ -9,4 +9,9 @@ const Container = styled.div({
   backgroundColor: 'red'
 });
 
+const SecondContainer = styled(Container)({
+  color: props => props.dark ? 'white' : 'black',
+  backgroundColor: 'green'
+});
+
 export default Container;
