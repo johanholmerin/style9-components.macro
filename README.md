@@ -45,5 +45,5 @@ const Container = props => {
 ## Install
 
 ```sh
-yarn add git+https://github.com/johanholmerin/style9-components.macro#semver:^0.2.0
+yarn add git+https://github.com/johanholmerin/style9-components.macro#semver:^0.2.1
 ```
