@@ -9,7 +9,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
-    "style9": "git+https://github.com/johanholmerin/style9#semver:^0.3.0"
+    "@types/react": "^17.0.3",
+    "csstype": "^3.0.7",
+    "style9": "^0.10.1",
+    "typescript": "^4.2.3"
   },
   "dependencies": {
     "@babel/types": "^7.9.6",
