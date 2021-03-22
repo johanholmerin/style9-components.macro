@@ -10,7 +10,7 @@ and dynamic will be set inline.
 import styled from 'style9-components.macro';
 
 const Container = styled.div({
-  fontSize: `${sizes.medium}px`,
+  fontSize: `${FONT_SIZE}px`,
   color: props => props.color,
   backgroundColor: 'red'
 });
@@ -22,7 +22,7 @@ import style9 from 'style9';
 const Container = props => {
   const styles = style9.create({
     styles: {
-      fontSize: `${sizes.medium}px`,
+      fontSize: `${FONT_SIZE}px`,
       backgroundColor: 'red'
     }
   });
